@@ -25,6 +25,8 @@ public:
         virtual void onEndClicked() = 0;
         virtual void onGoToStartClicked() = 0;
         virtual void onVolumeChanged(float value) = 0;
+        virtual void onPositionChanged(float value) = 0;
+        virtual void onLoopClicked(bool shouldloop) = 0;
     };
 
     void setListener(Listener* newListener);
@@ -37,8 +39,9 @@ private:
     juce::TextButton pauseButton{ "Pause" };
     juce::TextButton endButton{ "End" };
     juce::TextButton goToStartButton{ "Go To Start" };
+    juce::TextButton loopButton{ "Loop:off" };
     juce::Slider volumeSlider;
-
+    juce::Slider positionSlider;
     void buttonClicked(juce::Button* button) override;
     void sliderValueChanged(juce::Slider* slider) override;
 

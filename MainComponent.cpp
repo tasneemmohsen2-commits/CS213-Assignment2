@@ -1,4 +1,5 @@
 ﻿#include "MainComponent.h"
+#include"PlayerAudio.h"
 
 MainComponent::MainComponent()
 {
@@ -6,6 +7,7 @@ MainComponent::MainComponent()
     playerGUI.setListener(this);
 
     setAudioChannels(0, 2);
+    
     setSize(500, 250);
 }
 
@@ -71,6 +73,11 @@ void MainComponent::onVolumeChanged(float value)
 {
     playerAudio.setGain(value);
 }
+void MainComponent::onPositionChanged(float value) {
+    double duration = playerAudio.getLengthInSeconds();
+    playerAudio.setPosition(value * duration);
+}
+
 void MainComponent::onPauseClicked() {
     playerAudio.pause();
 }
@@ -79,4 +86,8 @@ void MainComponent::onEndClicked() {
 }
 void MainComponent::onGoToStartClicked() {
     playerAudio.goToStart();
+}
+void MainComponent::onLoopClicked(bool shouldloop) {
+
+    playerAudio.setLooping(shouldloop);
 }

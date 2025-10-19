@@ -10,6 +10,11 @@ public:
     void prepareToPlay(int samplesPerBlockExpected, double sampleRate);
     void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill);
     void releaseResources();
+    //position slider
+    double getLengthInSeconds() const;
+    void setPosition(double newPositionInSeconds);
+    double getCurrentPosition() const;
+
 
     void loadFile(const juce::File& file);
     void play();
@@ -19,11 +24,14 @@ public:
     void end();
     void goToStart();
     void setGain(float gain);
+    void setLooping(bool shouldloop);
+    bool isLooping()const;
 
 private:
     juce::AudioFormatManager formatManager;
     std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
     juce::AudioTransportSource transportSource;
+    bool looping = false;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PlayerAudio)
 };

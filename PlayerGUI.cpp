@@ -2,7 +2,7 @@
 
 PlayerGUI::PlayerGUI()
 {
-    for (auto* btn : { &loadButton, &playButton, &stopButton, &restartButton, &pauseButton, &endButton,&goToStartButton })
+    for (auto* btn : { &loadButton, &playButton, &stopButton, &restartButton, &pauseButton, &endButton,&goToStartButton,&loopButton })
     {
         addAndMakeVisible(btn);
         btn->addListener(this);
@@ -12,6 +12,14 @@ PlayerGUI::PlayerGUI()
     volumeSlider.setValue(0.5);
     volumeSlider.addListener(this);
     addAndMakeVisible(volumeSlider);
+
+    //position slider
+
+    positionSlider.setRange(0.0, 1.0, 0.01);
+    positionSlider.setValue(0.5);
+    positionSlider.addListener(this);
+    addAndMakeVisible(positionSlider);
+
 }
 
 PlayerGUI::~PlayerGUI() {}
@@ -31,7 +39,9 @@ void PlayerGUI::resized()
     pauseButton.setBounds(290, y, 80, 40);
     endButton.setBounds(470, y, 80, 40);
     goToStartButton.setBounds(560, y, 80, 40);
+    loopButton.setBounds(650, y, 80, 40);
     volumeSlider.setBounds(20, 100, getWidth() - 40, 30);
+    positionSlider.setBounds(20, 150, getWidth() - 40, 30);
 }
 
 void PlayerGUI::buttonClicked(juce::Button* button)
@@ -45,14 +55,26 @@ void PlayerGUI::buttonClicked(juce::Button* button)
     else if (button == &pauseButton) listener->onPauseClicked();
     else if (button == &endButton) listener->onEndClicked();
     else if (button == &goToStartButton) listener->onGoToStartClicked();
-
+    else if (button == &loopButton) {
+        static bool islooping = false;
+        islooping = !islooping;
+        loopButton.setButtonText(islooping ? "loop:on" : "loop:off");
+        if (listener) {
+            listener->onLoopClicked(islooping);
+        }
+    }
 }
 
 void PlayerGUI::sliderValueChanged(juce::Slider* slider)
 {
     if (listener && slider == &volumeSlider)
         listener->onVolumeChanged((float)slider->getValue());
+    if (listener && slider == &positionSlider)
+        listener->onPositionChanged((float)slider->getValue());
+
+
 }
+
 
 void PlayerGUI::setListener(Listener* newListener)
 {

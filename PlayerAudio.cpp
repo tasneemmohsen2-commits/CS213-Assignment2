@@ -31,7 +31,7 @@ void PlayerAudio::loadFile(const juce::File& file)
         readerSource.reset();
 
         readerSource = std::make_unique<juce::AudioFormatReaderSource>(reader, true);
-
+        readerSource->setLooping(looping);
         transportSource.setSource(readerSource.get(),
             0, nullptr, reader->sampleRate);
     }
@@ -73,3 +73,30 @@ void PlayerAudio::goToStart() {
     transportSource.setPosition(0.0);
     transportSource.start();
 }
+void PlayerAudio::setLooping(bool shouldLoop) {
+    if (readerSource != nullptr) {
+        readerSource->setLooping(shouldLoop);
+        looping = shouldLoop;
+    }
+}
+bool PlayerAudio::isLooping()const {
+    return looping;
+
+}
+
+//new slider
+double PlayerAudio::getLengthInSeconds() const
+{
+    return transportSource.getLengthInSeconds();
+}
+
+void PlayerAudio::setPosition(double newPositionInSeconds)
+{
+    transportSource.setPosition(newPositionInSeconds);
+}
+
+double PlayerAudio::getCurrentPosition() const
+{
+    return transportSource.getCurrentPosition();
+}
+

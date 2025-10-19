@@ -24,8 +24,10 @@ public:
     void onRestartClicked() override;
     void onPauseClicked() override;
     void onVolumeChanged(float value) override;
+    void onPositionChanged(float value) override;
     void onEndClicked() override ;
     void onGoToStartClicked() override;
+    void onLoopClicked(bool shouldloop) override;
 
 private:
     PlayerGUI playerGUI;
