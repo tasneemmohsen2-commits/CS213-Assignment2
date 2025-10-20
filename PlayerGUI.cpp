@@ -2,7 +2,9 @@
 
 PlayerGUI::PlayerGUI()
 {
-    for (auto* btn : { &loadButton, &playButton, &stopButton, &restartButton, &pauseButton, &endButton,&goToStartButton,&loopButton })
+    for (auto* btn : { &loadButton, &playButton, &stopButton, &restartButton,
+        &pauseButton, &endButton,&goToStartButton,&loopButton
+        , &TenSecondsForward , &TenSecondsBackward })
     {
         addAndMakeVisible(btn);
         btn->addListener(this);
@@ -40,6 +42,8 @@ void PlayerGUI::resized()
     endButton.setBounds(470, y, 80, 40);
     goToStartButton.setBounds(560, y, 80, 40);
     loopButton.setBounds(650, y, 80, 40);
+    TenSecondsForward.setBounds(740, y, 80, 40);
+    TenSecondsBackward.setBounds(830, y, 80, 40);
     volumeSlider.setBounds(20, 100, getWidth() - 40, 30);
     positionSlider.setBounds(20, 150, getWidth() - 40, 30);
 }
@@ -63,6 +67,8 @@ void PlayerGUI::buttonClicked(juce::Button* button)
             listener->onLoopClicked(islooping);
         }
     }
+    else if (button == &TenSecondsForward) listener->onTenSecondsForward();
+    else if (button == &TenSecondsBackward) listener->onTenSecondsBackward();
 }
 
 void PlayerGUI::sliderValueChanged(juce::Slider* slider)

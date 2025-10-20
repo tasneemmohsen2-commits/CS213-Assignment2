@@ -100,3 +100,24 @@ double PlayerAudio::getCurrentPosition() const
     return transportSource.getCurrentPosition();
 }
 
+void PlayerAudio::TenSecondsForward()
+{
+    double Position = transportSource.getCurrentPosition() + 10.0;
+
+    if (Position > transportSource.getLengthInSeconds())
+    {
+        Position = transportSource.getLengthInSeconds();
+    }
+    transportSource.setPosition(Position);
+}
+
+void PlayerAudio::TenSecondsBackward()
+{
+    double Position = transportSource.getCurrentPosition() - 10.0;
+
+    if (Position < 0.0)
+    {
+        Position = 0.0;
+    }
+    transportSource.setPosition(Position);
+}

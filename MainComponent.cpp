@@ -1,4 +1,4 @@
-﻿#include "MainComponent.h"
+#include "MainComponent.h"
 #include"PlayerAudio.h"
 
 MainComponent::MainComponent()
@@ -90,4 +90,14 @@ void MainComponent::onGoToStartClicked() {
 void MainComponent::onLoopClicked(bool shouldloop) {
 
     playerAudio.setLooping(shouldloop);
+}
+
+void MainComponent::onTenSecondsForward()
+{
+    playerAudio.TenSecondsForward();
+}
+
+void MainComponent::onTenSecondsBackward()
+{
+    playerAudio.TenSecondsBackward();
 }

@@ -28,6 +28,8 @@ public:
     void onEndClicked() override ;
     void onGoToStartClicked() override;
     void onLoopClicked(bool shouldloop) override;
+    void onTenSecondsForward() override;
+    void onTenSecondsBackward() override;
 
 private:
     PlayerGUI playerGUI;

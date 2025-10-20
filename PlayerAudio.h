@@ -26,6 +26,8 @@ public:
     void setGain(float gain);
     void setLooping(bool shouldloop);
     bool isLooping()const;
+    void TenSecondsForward();
+    void TenSecondsBackward();
 
 private:
     juce::AudioFormatManager formatManager;
