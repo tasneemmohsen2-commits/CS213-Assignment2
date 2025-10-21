@@ -22,6 +22,9 @@ PlayerGUI::PlayerGUI()
     positionSlider.addListener(this);
     addAndMakeVisible(positionSlider);
 
+    addAndMakeVisible(MuteButton);
+    MuteButton.addListener(this);
+
 }
 
 PlayerGUI::~PlayerGUI() {}
@@ -46,6 +49,7 @@ void PlayerGUI::resized()
     TenSecondsBackward.setBounds(830, y, 80, 40);
     volumeSlider.setBounds(20, 100, getWidth() - 40, 30);
     positionSlider.setBounds(20, 150, getWidth() - 40, 30);
+    MuteButton.setBounds(920, y, 80, 40);
 }
 
 void PlayerGUI::buttonClicked(juce::Button* button)
@@ -69,6 +73,19 @@ void PlayerGUI::buttonClicked(juce::Button* button)
     }
     else if (button == &TenSecondsForward) listener->onTenSecondsForward();
     else if (button == &TenSecondsBackward) listener->onTenSecondsBackward();
+    else if (button == &MuteButton)
+    {
+        if (listener) {
+            listener->onMuteClicked();
+        }
+
+        if (MuteButton.getButtonText() == "Mute") {
+            MuteButton.setButtonText("Unmute");
+        }
+        else {
+            MuteButton.setButtonText("Mute");
+        }
+    }
 }
 
 void PlayerGUI::sliderValueChanged(juce::Slider* slider)

@@ -101,3 +101,8 @@ void MainComponent::onTenSecondsBackward()
 {
     playerAudio.TenSecondsBackward();
 }
+
+void MainComponent::onMuteClicked()
+{
+    playerAudio.ToggleMute();
+}

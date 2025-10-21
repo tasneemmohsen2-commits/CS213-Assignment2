@@ -121,3 +121,18 @@ void PlayerAudio::TenSecondsBackward()
     }
     transportSource.setPosition(Position);
 }
+
+void PlayerAudio::ToggleMute()
+{
+    if (!muted)
+    {
+        last_volume = transportSource.getGain();
+        transportSource.setGain(0.0f);
+        muted = true;
+    }
+    else
+    {
+        transportSource.setGain(last_volume);
+        muted = false;
+    }
+}

@@ -29,7 +29,7 @@ public:
         virtual void onLoopClicked(bool shouldloop) = 0;
         virtual void onTenSecondsForward() = 0;
         virtual void onTenSecondsBackward() = 0;
-      
+        virtual void onMuteClicked() = 0;
     };
 
     void setListener(Listener* newListener);
@@ -45,6 +45,7 @@ private:
     juce::TextButton loopButton{ "Loop:off" };
     juce::TextButton TenSecondsForward{ "10s Forward" };
     juce::TextButton TenSecondsBackward{ "10s Backward" };
+    juce::TextButton MuteButton{ "Mute" };
     juce::Slider volumeSlider;
     juce::Slider positionSlider;
     void buttonClicked(juce::Button* button) override;

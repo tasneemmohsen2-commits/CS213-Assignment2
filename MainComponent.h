@@ -30,6 +30,7 @@ public:
     void onLoopClicked(bool shouldloop) override;
     void onTenSecondsForward() override;
     void onTenSecondsBackward() override;
+    void onMuteClicked() override;
 
 private:
     PlayerGUI playerGUI;
