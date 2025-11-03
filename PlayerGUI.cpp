@@ -5,7 +5,7 @@ PlayerGUI::PlayerGUI()
     for (auto* btn : { &loadButton, &playButton, &stopButton, &restartButton,
         &pauseButton, &endButton,&goToStartButton,&loopButton
         , &TenSecondsForward , &TenSecondsBackward , &SaveSessionButton , 
-        &LoadSessionButton})
+        &LoadSessionButton,&nextButton,&prevButton})
     {
         addAndMakeVisible(btn);
         btn->addListener(this);
@@ -67,6 +67,10 @@ void PlayerGUI::resized()
     artistLabel.setBounds(20, 230, getWidth() - 40, 20);
     durationLabel.setBounds(20, 260, getWidth() - 40, 20);
 
+    prevButton.setBounds(20, 300, 80, 40);
+    nextButton.setBounds(110, 300, 80, 40);
+
+
 }
 
 void PlayerGUI::buttonClicked(juce::Button* button)
@@ -104,6 +108,15 @@ void PlayerGUI::buttonClicked(juce::Button* button)
         else {
             MuteButton.setButtonText("Mute");
         }
+    }
+
+    else if (button == &nextButton)
+    {
+        if (listener) listener->onNextClicked();
+    }
+    else if (button == &prevButton)
+    {
+        if (listener) listener->onPrevClicked();
     }
 }
 

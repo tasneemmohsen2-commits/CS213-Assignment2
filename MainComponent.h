@@ -33,6 +33,11 @@ public:
     void onMuteClicked() override;
     void onSaveSessionClicked();
     void onLoadSessionClicked();
+    std::vector<juce::File> playlist;
+    int currentIndex = 0;
+    void onNextClicked() override;
+    void onPrevClicked() override;
+
 
 private:
     PlayerGUI playerGUI;

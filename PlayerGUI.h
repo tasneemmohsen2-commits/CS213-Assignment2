@@ -36,6 +36,8 @@ public:
         virtual void onMuteClicked() = 0;
         virtual void onSaveSessionClicked() = 0;
         virtual void onLoadSessionClicked() = 0;
+        virtual void onNextClicked() = 0;
+        virtual void onPrevClicked() = 0;
 
     };
 
@@ -60,6 +62,8 @@ private:
     void buttonClicked(juce::Button* button) override;
     void sliderValueChanged(juce::Slider* slider) override;
     juce::Label titleLabel, artistLabel, durationLabel;
+    juce::TextButton nextButton { "Next" };
+    juce::TextButton prevButton { "Prev" };
 
     Listener* listener = nullptr;
 };

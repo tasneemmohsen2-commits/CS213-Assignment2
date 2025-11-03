@@ -1,6 +1,7 @@
 #pragma once
 #include <JuceHeader.h>
 
+
 class PlayerAudio
 {
 public:
@@ -37,6 +38,8 @@ public:
     juce::String getArtist() const;
     juce::String getDurationString() const;
     juce::String getFileName() const;
+    void playNext();
+    void playPrevious();
 
 
 

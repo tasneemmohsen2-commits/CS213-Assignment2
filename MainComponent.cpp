@@ -8,6 +8,7 @@ MainComponent::MainComponent()
     addAndMakeVisible(playerGUI);
     playerGUI.setListener(this);
 
+
     setAudioChannels(0, 2);
     
     setSize(500, 250);
@@ -47,13 +48,21 @@ void MainComponent::onLoadClicked()
 {
     fileChooser = std::make_unique<juce::FileChooser>("Select an audio file...", juce::File{}, "*.wav;*.mp3");
     fileChooser->launchAsync(
-        juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles,
+        juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles | juce::FileBrowserComponent::canSelectMultipleItems,
         [this](const juce::FileChooser& fc)
         {
-            auto file = fc.getResult();
-            CurrentPath = file.getFullPathName();
+            auto selectedFiles = fc.getResults();
+
+            currentIndex = 0;
+            if (selectedFiles.isEmpty())
+                return;
+            for (auto& file : selectedFiles)
+                playlist.push_back(file);
+
+            auto file = playlist[currentIndex];
             if (file.existsAsFile()) {
                 playerAudio.loadFile(file);
+            CurrentPath = file.getFullPathName();
                 juce::String title = playerAudio.title.isNotEmpty() ? playerAudio.title : file.getFileNameWithoutExtension();
                 juce::String artist = playerAudio.artist.isNotEmpty() ? playerAudio.artist : "Unknown";
                 juce::String duration = playerAudio.durationString.isNotEmpty() ? playerAudio.durationString : "Unknown";
@@ -145,4 +154,41 @@ void MainComponent::onLoadSessionClicked()
             juce::String FullPath = file.getFullPathName();
             playerAudio.LoadSession(FullPath);
         });
+}
+void MainComponent::onNextClicked()
+{
+    if (playlist.empty()) return;
+
+    currentIndex++;
+    if (currentIndex >= (int)playlist.size())
+        currentIndex = 0;
+
+    juce::File file = playlist[currentIndex];
+    playerAudio.loadFile(file);
+
+    juce::String title    = playerAudio.getTitle().isNotEmpty() ? playerAudio.getTitle() : file.getFileNameWithoutExtension();
+    juce::String artist   = playerAudio.getArtist().isNotEmpty() ? playerAudio.getArtist() : "Unknown";
+    juce::String duration = playerAudio.getDurationString().isNotEmpty() ? playerAudio.getDurationString() : "Unknown";
+
+    playerGUI.setMetadata(title, artist, duration);
+    playerAudio.play();
+}
+
+void MainComponent::onPrevClicked()
+{
+    if (playlist.empty()) return;
+
+    currentIndex--;
+    if (currentIndex < 0)
+        currentIndex = playlist.size() - 1; // go to last song
+
+    juce::File file = playlist[currentIndex];
+    playerAudio.loadFile(file);
+
+    juce::String title    = playerAudio.getTitle().isNotEmpty() ? playerAudio.getTitle() : file.getFileNameWithoutExtension();
+    juce::String artist   = playerAudio.getArtist().isNotEmpty() ? playerAudio.getArtist() : "Unknown";
+    juce::String duration = playerAudio.getDurationString().isNotEmpty() ? playerAudio.getDurationString() : "Unknown";
+
+    playerGUI.setMetadata(title, artist, duration);
+    playerAudio.play();
 }
