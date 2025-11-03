@@ -4,7 +4,8 @@ PlayerGUI::PlayerGUI()
 {
     for (auto* btn : { &loadButton, &playButton, &stopButton, &restartButton,
         &pauseButton, &endButton,&goToStartButton,&loopButton
-        , &TenSecondsForward , &TenSecondsBackward })
+        , &TenSecondsForward , &TenSecondsBackward , &SaveSessionButton , 
+        &LoadSessionButton})
     {
         addAndMakeVisible(btn);
         btn->addListener(this);
@@ -50,6 +51,8 @@ void PlayerGUI::resized()
     volumeSlider.setBounds(20, 100, getWidth() - 40, 30);
     positionSlider.setBounds(20, 150, getWidth() - 40, 30);
     MuteButton.setBounds(920, y, 80, 40);
+    SaveSessionButton.setBounds(1010, y, 80, 40);
+    LoadSessionButton.setBounds(1100, y, 80, 40);
 }
 
 void PlayerGUI::buttonClicked(juce::Button* button)
@@ -73,6 +76,8 @@ void PlayerGUI::buttonClicked(juce::Button* button)
     }
     else if (button == &TenSecondsForward) listener->onTenSecondsForward();
     else if (button == &TenSecondsBackward) listener->onTenSecondsBackward();
+    else if (button == &SaveSessionButton) listener->onSaveSessionClicked();
+    else if (button == &LoadSessionButton) listener->onLoadSessionClicked();
     else if (button == &MuteButton)
     {
         if (listener) {

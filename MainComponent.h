@@ -31,6 +31,8 @@ public:
     void onTenSecondsForward() override;
     void onTenSecondsBackward() override;
     void onMuteClicked() override;
+    void onSaveSessionClicked();
+    void onLoadSessionClicked();
 
 private:
     PlayerGUI playerGUI;

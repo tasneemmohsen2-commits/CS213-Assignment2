@@ -30,6 +30,8 @@ public:
         virtual void onTenSecondsForward() = 0;
         virtual void onTenSecondsBackward() = 0;
         virtual void onMuteClicked() = 0;
+        virtual void onSaveSessionClicked() = 0;
+        virtual void onLoadSessionClicked() = 0;
     };
 
     void setListener(Listener* newListener);
@@ -46,6 +48,8 @@ private:
     juce::TextButton TenSecondsForward{ "10s Forward" };
     juce::TextButton TenSecondsBackward{ "10s Backward" };
     juce::TextButton MuteButton{ "Mute" };
+    juce::TextButton SaveSessionButton{ "Save Session" };
+    juce::TextButton LoadSessionButton{ "Load Session" };
     juce::Slider volumeSlider;
     juce::Slider positionSlider;
     void buttonClicked(juce::Button* button) override;

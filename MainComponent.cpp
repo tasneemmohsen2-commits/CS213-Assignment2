@@ -1,6 +1,8 @@
 #include "MainComponent.h"
 #include"PlayerAudio.h"
 
+juce::String CurrentPath;
+
 MainComponent::MainComponent()
 {
     addAndMakeVisible(playerGUI);
@@ -49,6 +51,7 @@ void MainComponent::onLoadClicked()
         [this](const juce::FileChooser& fc)
         {
             auto file = fc.getResult();
+            CurrentPath = file.getFullPathName();
             if (file.existsAsFile())
                 playerAudio.loadFile(file);
         });
@@ -105,4 +108,33 @@ void MainComponent::onTenSecondsBackward()
 void MainComponent::onMuteClicked()
 {
     playerAudio.ToggleMute();
+}
+
+void MainComponent::onSaveSessionClicked()
+{
+    
+    fileChooser = std::make_unique<juce::FileChooser>("Save Your Session File...", juce::File{}, "*.txt");
+    fileChooser->launchAsync(
+        juce::FileBrowserComponent::saveMode | juce::FileBrowserComponent::warnAboutOverwriting,
+        [this](const juce::FileChooser& fc)
+        {
+            auto file = fc.getResult();
+            juce::String SavePath = file.getFullPathName();
+            playerAudio.SaveSession(CurrentPath , SavePath);   
+        });
+
+}
+
+void MainComponent::onLoadSessionClicked()
+{
+    fileChooser = std::make_unique<juce::FileChooser>("Select a Session File...", juce::File{}, "*.txt");
+    fileChooser->launchAsync(
+        juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles,
+        [this](const juce::FileChooser& fc)
+        {
+
+            auto file = fc.getResult();
+            juce::String FullPath = file.getFullPathName();
+            playerAudio.LoadSession(FullPath);
+        });
 }

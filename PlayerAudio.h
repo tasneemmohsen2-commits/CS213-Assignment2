@@ -29,6 +29,8 @@ public:
     void TenSecondsForward();
     void TenSecondsBackward();
     void ToggleMute();
+    void SaveSession(const juce::String& , const juce::String&);
+    void LoadSession(const juce::String&);
 
 private:
     juce::AudioFormatManager formatManager;

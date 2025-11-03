@@ -136,3 +136,33 @@ void PlayerAudio::ToggleMute()
         muted = false;
     }
 }
+void PlayerAudio::SaveSession(const juce::String& FilePath , const juce::String& SavePath)
+{
+    double PlaybackPosition = transportSource.getCurrentPosition();
+    juce::FileOutputStream SessionFile(SavePath);
+    if (SessionFile.openedOk())
+    {
+        SessionFile.setPosition(0);
+        SessionFile.truncate();
+        SessionFile << FilePath << '\n';
+        SessionFile << PlaybackPosition << '\n';
+    }
+
+
+}
+
+void PlayerAudio::LoadSession(const juce::String& Path)
+{
+    juce::FileInputStream SessionFile(Path);
+    if (SessionFile.openedOk())
+    {
+        juce::String SongPath, SecondLine;
+        SongPath = SessionFile.readNextLine();
+        SecondLine = SessionFile.readNextLine();
+        double PlaybackPosition = SecondLine.getDoubleValue();
+        DBG("Song Path: " << SongPath << " \nPlayback Position : " << PlaybackPosition);
+        
+        PlayerAudio::loadFile(SongPath);
+        transportSource.setPosition(PlaybackPosition);
+    }
+}
