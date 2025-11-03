@@ -26,6 +26,15 @@ PlayerGUI::PlayerGUI()
     addAndMakeVisible(MuteButton);
     MuteButton.addListener(this);
 
+    titleLabel.setText("Title: ---", juce::dontSendNotification);
+    artistLabel.setText("Artist: ---", juce::dontSendNotification);
+    durationLabel.setText("Duration: ---", juce::dontSendNotification);
+
+    addAndMakeVisible(titleLabel);
+    addAndMakeVisible(artistLabel);
+    addAndMakeVisible(durationLabel);
+
+
 }
 
 PlayerGUI::~PlayerGUI() {}
@@ -53,6 +62,11 @@ void PlayerGUI::resized()
     MuteButton.setBounds(920, y, 80, 40);
     SaveSessionButton.setBounds(1010, y, 80, 40);
     LoadSessionButton.setBounds(1100, y, 80, 40);
+
+    titleLabel.setBounds(20, 200, getWidth() - 40, 20);
+    artistLabel.setBounds(20, 230, getWidth() - 40, 20);
+    durationLabel.setBounds(20, 260, getWidth() - 40, 20);
+
 }
 
 void PlayerGUI::buttonClicked(juce::Button* button)
@@ -102,6 +116,16 @@ void PlayerGUI::sliderValueChanged(juce::Slider* slider)
 
 
 }
+
+void PlayerGUI::setMetadata(const juce::String& title,
+                            const juce::String& artist,
+                            const juce::String& duration)
+{
+    titleLabel.setText("Title: " + title, juce::dontSendNotification);
+    artistLabel.setText("Artist: " + artist, juce::dontSendNotification);
+    durationLabel.setText("Duration: " + duration, juce::dontSendNotification);
+}
+
 
 
 void PlayerGUI::setListener(Listener* newListener)

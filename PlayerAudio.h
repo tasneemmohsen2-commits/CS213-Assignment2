@@ -32,6 +32,14 @@ public:
     void SaveSession(const juce::String& , const juce::String&);
     void LoadSession(const juce::String&);
 
+    juce::String title, artist, durationString, fileName;
+    juce::String getTitle() const;
+    juce::String getArtist() const;
+    juce::String getDurationString() const;
+    juce::String getFileName() const;
+
+
+
 private:
     juce::AudioFormatManager formatManager;
     std::unique_ptr<juce::AudioFormatReaderSource> readerSource;

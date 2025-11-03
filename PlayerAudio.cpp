@@ -34,6 +34,16 @@ void PlayerAudio::loadFile(const juce::File& file)
         readerSource->setLooping(looping);
         transportSource.setSource(readerSource.get(),
             0, nullptr, reader->sampleRate);
+
+        auto metadata = reader->metadataValues;
+        if (metadata.containsKey("title"))
+            title = metadata["title"];
+
+        if (metadata.containsKey("artist"))
+            artist = metadata["artist"];
+
+        double length = reader->lengthInSamples / reader->sampleRate;
+        durationString = juce::String(length, 2) + " sec";
     }
 }
 
@@ -166,3 +176,8 @@ void PlayerAudio::LoadSession(const juce::String& Path)
         transportSource.setPosition(PlaybackPosition);
     }
 }
+
+juce::String PlayerAudio::getTitle() const   { return title; }
+juce::String PlayerAudio::getArtist() const  { return artist; }
+juce::String PlayerAudio::getDurationString() const { return durationString; }
+juce::String PlayerAudio::getFileName() const { return fileName; }

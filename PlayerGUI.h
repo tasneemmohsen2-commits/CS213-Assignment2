@@ -12,6 +12,10 @@ public:
     void paint(juce::Graphics&) override;
     void resized() override;
 
+    void setMetadata(const juce::String& title,
+                 const juce::String& artist,
+                 const juce::String& duration);
+
     // Listener interface so MainComponent can get events
     class Listener
     {
@@ -32,6 +36,7 @@ public:
         virtual void onMuteClicked() = 0;
         virtual void onSaveSessionClicked() = 0;
         virtual void onLoadSessionClicked() = 0;
+
     };
 
     void setListener(Listener* newListener);
@@ -54,6 +59,7 @@ private:
     juce::Slider positionSlider;
     void buttonClicked(juce::Button* button) override;
     void sliderValueChanged(juce::Slider* slider) override;
+    juce::Label titleLabel, artistLabel, durationLabel;
 
     Listener* listener = nullptr;
 };

@@ -52,8 +52,16 @@ void MainComponent::onLoadClicked()
         {
             auto file = fc.getResult();
             CurrentPath = file.getFullPathName();
-            if (file.existsAsFile())
+            if (file.existsAsFile()) {
                 playerAudio.loadFile(file);
+                juce::String title = playerAudio.title.isNotEmpty() ? playerAudio.title : file.getFileNameWithoutExtension();
+                juce::String artist = playerAudio.artist.isNotEmpty() ? playerAudio.artist : "Unknown";
+                juce::String duration = playerAudio.durationString.isNotEmpty() ? playerAudio.durationString : "Unknown";
+
+                playerGUI.setMetadata(title, artist, duration);
+
+            }
+
         });
 }
 
