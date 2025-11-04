@@ -177,6 +177,16 @@ void PlayerAudio::LoadSession(const juce::String& Path)
     }
 }
 
+void PlayerAudio::setSpeed(double ratio) {
+    if (readerSource != nullptr) {
+        Playback_Speed = ratio;
+        transportSource.setSource(
+            readerSource.get(), 0, nullptr,
+            readerSource->getAudioFormatReader()->sampleRate*ratio
+        );
+    }
+}
+
 juce::String PlayerAudio::getTitle() const   { return title; }
 juce::String PlayerAudio::getArtist() const  { return artist; }
 juce::String PlayerAudio::getDurationString() const { return durationString; }
