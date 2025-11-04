@@ -41,6 +41,7 @@ public:
         virtual void onSetAClicked() = 0;
         virtual void onSetBClicked() = 0;
         virtual void onsegmentloopClicked(bool enable) = 0;
+        virtual void onSpeedChanged(double value) = 0;
         
         
  
@@ -69,9 +70,11 @@ private:
     juce::TextButton segmentloop{ "Segment Loop:off" };
     juce::Slider volumeSlider;
     juce::Slider positionSlider;
+    juce::Slider speedSlider;
   
     juce::Label volume{ "Volume slider: " };
     juce::Label position{ "Position slider: " };
+    juce::Label speed{ "Speed slider:", "Speed slider:" };
     juce::Label segment{ "Loop over a specific segment: " };
     juce::Label Alabel{ "A:", "A=0.0s" };
     juce::Label Blabel{ "B:", "B=0.0s" };

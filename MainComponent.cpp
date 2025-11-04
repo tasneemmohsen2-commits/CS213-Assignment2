@@ -235,3 +235,8 @@ void MainComponent::onSetBClicked()
     isSegmentLoopEnabled = true;
 }
 
+void MainComponent::onSpeedChanged(double value)
+{
+    playerAudio.setSpeed(value);
+}
+

@@ -32,6 +32,7 @@ public:
     void ToggleMute();
     void SaveSession(const juce::String& , const juce::String&);
     void LoadSession(const juce::String&);
+    void setSpeed(double ratio);
 
     juce::String title, artist, durationString, fileName;
     juce::String getTitle() const;
@@ -50,6 +51,7 @@ private:
     bool looping = false;
     bool muted = false;
     float last_volume = 1.0f;
+    double Playback_Speed = 1.0;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PlayerAudio)
 
 };
