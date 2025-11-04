@@ -3,7 +3,8 @@
 
 class PlayerGUI : public juce::Component,
                   public juce::Button::Listener,
-                  public juce::Slider::Listener
+                  public juce::Slider::Listener,
+                  public juce::ListBoxModel
 {
 public:
     PlayerGUI();
@@ -15,6 +16,16 @@ public:
     void setMetadata(const juce::String& title,
                  const juce::String& artist,
                  const juce::String& duration);
+
+    int getNumRows() override;
+    void paintListBoxItem(int rowNumber, juce::Graphics& g,
+                          int width, int height, bool rowIsSelected) override;
+    void listBoxItemClicked(int row, const juce::MouseEvent& e) override;
+    void PlayerGUI::refreshPlaylist()
+    {
+        playlistBox.updateContent();
+        playlistBox.repaint();
+    }
 
     // Listener interface so MainComponent can get events
     class Listener
@@ -38,11 +49,22 @@ public:
         virtual void onLoadSessionClicked() = 0;
         virtual void onNextClicked() = 0;
         virtual void onPrevClicked() = 0;
-
+        virtual void onSetAClicked() = 0;
+        virtual void onSetBClicked() = 0;
+        virtual void onsegmentloopClicked(bool enable) = 0;
+        virtual void onSpeedChanged(double value) = 0;
+        virtual int getPlaylistSize() const = 0;
+        virtual juce::String getPlaylistItem(int index) const = 0;
+        virtual void onSongSelected(int index) = 0;
+        
+        
+ 
     };
 
     void setListener(Listener* newListener);
-
+    void updatepositionslider(double value);
+    void updateloop(double Atime, double Btime);
+    
 private:
     juce::TextButton loadButton{ "Load" };
     juce::TextButton playButton{ "Play" };
@@ -57,13 +79,26 @@ private:
     juce::TextButton MuteButton{ "Mute" };
     juce::TextButton SaveSessionButton{ "Save Session" };
     juce::TextButton LoadSessionButton{ "Load Session" };
+    juce::TextButton setA{ "set A" };
+    juce::TextButton setB{ "set B" };
+    juce::TextButton segmentloop{ "Segment Loop:off" };
     juce::Slider volumeSlider;
     juce::Slider positionSlider;
+    juce::Slider speedSlider;
+  
+    juce::Label volume{ "Volume slider: " };
+    juce::Label position{ "Position slider: " };
+    juce::Label speed{ "Speed slider:", "Speed slider:" };
+    juce::Label segment{ "Loop over a specific segment: " };
+    juce::Label Alabel{ "A:", "A=0.0s" };
+    juce::Label Blabel{ "B:", "B=0.0s" };
     void buttonClicked(juce::Button* button) override;
     void sliderValueChanged(juce::Slider* slider) override;
     juce::Label titleLabel, artistLabel, durationLabel;
     juce::TextButton nextButton { "Next" };
     juce::TextButton prevButton { "Prev" };
+    juce::ListBox playlistBox;
+
 
     Listener* listener = nullptr;
 };
