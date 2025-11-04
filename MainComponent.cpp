@@ -243,7 +243,7 @@ void MainComponent::onSetBClicked()
 {
     loopEnd = playerAudio.getCurrentPosition();
     playerGUI.updateloop(loopStart, loopEnd);
-    isSegmentLoopEnabled = true;
+    isSegmentLoopEnabled = false;
 }
 
 void MainComponent::onSpeedChanged(double value)
