@@ -128,8 +128,8 @@ void PlayerGUI::resized()
     segmentloop.setBounds(780, 440, 150, 30);
 
     playlistBox.setBounds(20, 500, getWidth() - 40, getHeight() - 520);
-
-    progressBar.setBounds(20, 590, getWidth() - 40, 20);
+    
+    progressBar.setBounds(20, 820, getWidth() - 40, 20);
 
     AddMarkerButton.setBounds(1100, 260, 80, 40);
     MarkerList.setBounds(1200, 260 , 100, 50);
