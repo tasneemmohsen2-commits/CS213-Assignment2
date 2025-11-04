@@ -3,11 +3,6 @@
 
 juce::String CurrentPath;
 
-double loopStart = 0.0;
-double loopEnd = 0.0;
-bool isLoopEnabled = false;
-
-
 MainComponent::MainComponent()
 {
     addAndMakeVisible(playerGUI);
@@ -17,8 +12,6 @@ MainComponent::MainComponent()
     setAudioChannels(0, 2);
     
     setSize(500, 250);
-
-    startTimerHz(60);
 }
 
 MainComponent::~MainComponent()
@@ -34,12 +27,6 @@ void MainComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate
 void MainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
 {
     playerAudio.getNextAudioBlock(bufferToFill);
-    if (isSegmentLoopEnabled) {
-        double currentPos = playerAudio.getCurrentPosition();
-        if (currentPos >= loopEnd) {
-            playerAudio.setPosition(loopStart);
-        }
-    }
 }
 
 void MainComponent::releaseResources()
@@ -83,7 +70,6 @@ void MainComponent::onLoadClicked()
                 playerGUI.setMetadata(title, artist, duration);
 
             }
-            playerGUI.refreshPlaylist();
 
         });
 }
@@ -102,7 +88,7 @@ void MainComponent::onRestartClicked()
 {
     playerAudio.restart();
 }
-//positionandvolume slider
+
 void MainComponent::onVolumeChanged(float value)
 {
     playerAudio.setGain(value);
@@ -110,28 +96,6 @@ void MainComponent::onVolumeChanged(float value)
 void MainComponent::onPositionChanged(float value) {
     double duration = playerAudio.getLengthInSeconds();
     playerAudio.setPosition(value * duration);
-}
-
-void MainComponent::timerCallback()
-{
-    double slider_position = playerAudio.getCurrentPosition();
-    double length = playerAudio.getLengthInSeconds();
-
-    if (length <= 0)
-        return;
-
-    playerGUI.updatepositionslider(slider_position / length);
-
-    if (isSegmentLoopEnabled && slider_position >= loopEnd)
-    {
-        playerAudio.setPosition(loopStart);
-        return;
-    }
-
-    if (!playerAudio.isPlaying() && slider_position >= length)
-    {
-        onNextClicked();
-    }
 }
 
 void MainComponent::onPauseClicked() {
@@ -146,9 +110,6 @@ void MainComponent::onGoToStartClicked() {
 void MainComponent::onLoopClicked(bool shouldloop) {
 
     playerAudio.setLooping(shouldloop);
-}
-void MainComponent::onsegmentloopClicked(bool enable) {
-    isSegmentLoopEnabled = enable;
 }
 
 void MainComponent::onTenSecondsForward()
@@ -194,7 +155,6 @@ void MainComponent::onLoadSessionClicked()
             playerAudio.LoadSession(FullPath);
         });
 }
-
 void MainComponent::onNextClicked()
 {
     if (playlist.empty()) return;
@@ -232,52 +192,3 @@ void MainComponent::onPrevClicked()
     playerGUI.setMetadata(title, artist, duration);
     playerAudio.play();
 }
-
-void MainComponent::onSetAClicked()
-{
-    loopStart = playerAudio.getCurrentPosition();
-    playerGUI.updateloop(loopStart, loopEnd);
-}
-
-void MainComponent::onSetBClicked()
-{
-    loopEnd = playerAudio.getCurrentPosition();
-    playerGUI.updateloop(loopStart, loopEnd);
-    isSegmentLoopEnabled = true;
-}
-
-void MainComponent::onSpeedChanged(double value)
-{
-    playerAudio.setSpeed(value);
-}
-int MainComponent::getPlaylistSize() const
-{
-    return static_cast<int>(playlist.size());
-}
-
-juce::String MainComponent::getPlaylistItem(int index) const
-{
-    if (index < 0 || index >= (int)playlist.size())
-        return {};
-    return playlist[index].getFileNameWithoutExtension();
-}
-
-void MainComponent::onSongSelected(int index)
-{
-    if (index < 0 || index >= (int)playlist.size())
-        return;
-
-    currentIndex = index;
-    juce::File file = playlist[currentIndex];
-    playerAudio.loadFile(file);
-
-    juce::String title    = playerAudio.getTitle().isNotEmpty() ? playerAudio.getTitle() : file.getFileNameWithoutExtension();
-    juce::String artist   = playerAudio.getArtist().isNotEmpty() ? playerAudio.getArtist() : "Unknown";
-    juce::String duration = playerAudio.getDurationString().isNotEmpty() ? playerAudio.getDurationString() : "Unknown";
-
-    playerGUI.setMetadata(title, artist, duration);
-    playerAudio.play();
-}
-
-
-
