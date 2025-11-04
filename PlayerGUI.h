@@ -2,9 +2,10 @@
 #include <JuceHeader.h>
 
 class PlayerGUI : public juce::Component,
-                  public juce::Button::Listener,
-                  public juce::Slider::Listener,
-                  public juce::ListBoxModel
+    public juce::Button::Listener,
+    public juce::Slider::Listener,
+    public juce::ComboBox::Listener,
+    public juce::ListBoxModel
 {
 public:
     PlayerGUI();
@@ -12,6 +13,8 @@ public:
 
     void paint(juce::Graphics&) override;
     void resized() override;
+
+    void comboBoxChanged(juce::ComboBox* comboBoxChanged) override;
 
     void setMetadata(const juce::String& title,
                  const juce::String& artist,
@@ -56,6 +59,7 @@ public:
         virtual int getPlaylistSize() const = 0;
         virtual juce::String getPlaylistItem(int index) const = 0;
         virtual void onSongSelected(int index) = 0;
+        virtual void onAddMarkerClicked() = 0;
         
         
  
@@ -101,7 +105,8 @@ private:
     juce::ListBox playlistBox;
     double Progress_Value = 0.0;
     juce::ProgressBar progressBar{ Progress_Value };
-
+    juce::ComboBox MarkerList;
+    juce::TextButton AddMarkerButton{ "Add Marker" };
 
     Listener* listener = nullptr;
 };

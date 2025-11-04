@@ -281,3 +281,7 @@ void MainComponent::onSongSelected(int index)
     playerAudio.play();
 }
 
+void MainComponent::onAddMarkerClicked()
+{
+    playerAudio.AddMarker();
+}

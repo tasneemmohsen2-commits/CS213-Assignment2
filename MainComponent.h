@@ -47,7 +47,7 @@ public:
     int getPlaylistSize() const;
     juce::String getPlaylistItem(int index) const;
     void onSongSelected(int index);
-
+    void onAddMarkerClicked();
 
 
 private:

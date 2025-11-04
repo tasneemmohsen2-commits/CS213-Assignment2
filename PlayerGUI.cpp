@@ -7,7 +7,8 @@ PlayerGUI::PlayerGUI()
         &loadButton, &playButton, &stopButton, &restartButton,
         &pauseButton, &endButton, &goToStartButton, &loopButton, 
         &TenSecondsForward, &TenSecondsBackward, &MuteButton, &SaveSessionButton, 
-        &LoadSessionButton, &nextButton, &prevButton, &setA, &setB, &segmentloop })
+        &LoadSessionButton, &nextButton, &prevButton, &setA, &setB, &segmentloop
+        , &AddMarkerButton})
     
 {
         addAndMakeVisible(btn);
@@ -70,6 +71,12 @@ PlayerGUI::PlayerGUI()
 
     addAndMakeVisible(progressBar);
 
+    // Combo box (Marker)
+    MarkerList.addItem("!", 1);
+    MarkerList.addItem("#", 2);
+    addAndMakeVisible(MarkerList);
+    MarkerList.addListener(this);
+
 }
 
 PlayerGUI::~PlayerGUI() {}
@@ -123,6 +130,9 @@ void PlayerGUI::resized()
     playlistBox.setBounds(20, 500, getWidth() - 40, getHeight() - 520);
 
     progressBar.setBounds(20, 590, getWidth() - 40, 20);
+
+    AddMarkerButton.setBounds(1100, 260, 80, 40);
+    MarkerList.setBounds(1200, 260 , 100, 50);
 
 }
 
@@ -183,6 +193,7 @@ void PlayerGUI::buttonClicked(juce::Button* button)
 
     else if (button == &setA)  listener->onSetAClicked();
     else if (button == &setB) listener->onSetBClicked();
+    else if (button == &AddMarkerButton) listener->onAddMarkerClicked();
         
     
 
@@ -258,4 +269,13 @@ void PlayerGUI::listBoxItemClicked(int row, const juce::MouseEvent& e) {
 void PlayerGUI::updateProgress(double value)
 {
     Progress_Value = value;
+}
+
+void PlayerGUI::comboBoxChanged(juce::ComboBox* comboBoxChanged)
+{
+    if (comboBoxChanged == &MarkerList)
+    {
+        int selectedId = MarkerList.getSelectedId();
+        
+    }
 }

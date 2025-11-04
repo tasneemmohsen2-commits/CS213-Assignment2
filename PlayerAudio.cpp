@@ -187,6 +187,12 @@ void PlayerAudio::setSpeed(double ratio) {
     }
 }
 
+void PlayerAudio::AddMarker()
+{
+    double PlaybackPosition = transportSource.getCurrentPosition();
+    MarksPositions.push_back(PlaybackPosition);
+}
+
 juce::String PlayerAudio::getTitle() const   { return title; }
 juce::String PlayerAudio::getArtist() const  { return artist; }
 juce::String PlayerAudio::getDurationString() const { return durationString; }

@@ -42,6 +42,7 @@ public:
     void playNext();
     void playPrevious();
     bool isPlaying() const { return transportSource.isPlaying(); }
+    void AddMarker();
 
 
 
@@ -50,6 +51,7 @@ private:
     juce::AudioFormatManager formatManager;
     std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
     juce::AudioTransportSource transportSource;
+    std::vector<double> MarksPositions;
     bool looping = false;
     bool muted = false;
     float last_volume = 1.0f;
