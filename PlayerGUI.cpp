@@ -68,6 +68,8 @@ PlayerGUI::PlayerGUI()
     addAndMakeVisible(playlistBox);
     playlistBox.setModel(this);
 
+    addAndMakeVisible(progressBar);
+
 }
 
 PlayerGUI::~PlayerGUI() {}
@@ -119,6 +121,8 @@ void PlayerGUI::resized()
     segmentloop.setBounds(780, 440, 150, 30);
 
     playlistBox.setBounds(20, 500, getWidth() - 40, getHeight() - 520);
+
+    progressBar.setBounds(20, 590, getWidth() - 40, 20);
 
 }
 
@@ -250,4 +254,8 @@ void PlayerGUI::paintListBoxItem(int rowNumber, juce::Graphics& g,
 void PlayerGUI::listBoxItemClicked(int row, const juce::MouseEvent& e) {
     if (listener != nullptr)
         listener->onSongSelected(row);
+}
+void PlayerGUI::updateProgress(double value)
+{
+    Progress_Value = value;
 }

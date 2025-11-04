@@ -121,6 +121,8 @@ void MainComponent::timerCallback()
         return;
 
     playerGUI.updatepositionslider(slider_position / length);
+    playerGUI.updateProgress(slider_position / length);
+
 
     if (isSegmentLoopEnabled && slider_position >= loopEnd)
     {
@@ -278,3 +280,4 @@ void MainComponent::onSongSelected(int index)
     playerGUI.setMetadata(title, artist, duration);
     playerAudio.play();
 }
+

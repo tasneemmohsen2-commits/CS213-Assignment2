@@ -64,6 +64,7 @@ public:
     void setListener(Listener* newListener);
     void updatepositionslider(double value);
     void updateloop(double Atime, double Btime);
+    void updateProgress(double value);
     
 private:
     juce::TextButton loadButton{ "Load" };
@@ -98,6 +99,8 @@ private:
     juce::TextButton nextButton { "Next" };
     juce::TextButton prevButton { "Prev" };
     juce::ListBox playlistBox;
+    double Progress_Value = 0.0;
+    juce::ProgressBar progressBar{ Progress_Value };
 
 
     Listener* listener = nullptr;
