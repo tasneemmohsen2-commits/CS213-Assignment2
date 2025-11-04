@@ -3,6 +3,11 @@
 
 juce::String CurrentPath;
 
+double loopStart = 0.0;
+double loopEnd = 0.0;
+bool isLoopEnabled = false;
+
+
 MainComponent::MainComponent()
 {
     addAndMakeVisible(playerGUI);
@@ -12,6 +17,8 @@ MainComponent::MainComponent()
     setAudioChannels(0, 2);
     
     setSize(500, 250);
+
+    startTimerHz(60);
 }
 
 MainComponent::~MainComponent()
@@ -27,6 +34,12 @@ void MainComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate
 void MainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
 {
     playerAudio.getNextAudioBlock(bufferToFill);
+    if (isSegmentLoopEnabled) {
+        double currentPos = playerAudio.getCurrentPosition();
+        if (currentPos >= loopEnd) {
+            playerAudio.setPosition(loopStart);
+        }
+    }
 }
 
 void MainComponent::releaseResources()
@@ -88,7 +101,7 @@ void MainComponent::onRestartClicked()
 {
     playerAudio.restart();
 }
-
+//positionandvolume slider
 void MainComponent::onVolumeChanged(float value)
 {
     playerAudio.setGain(value);
@@ -97,6 +110,18 @@ void MainComponent::onPositionChanged(float value) {
     double duration = playerAudio.getLengthInSeconds();
     playerAudio.setPosition(value * duration);
 }
+
+void MainComponent::timerCallback() {
+
+    double slider_position = playerAudio.getCurrentPosition();
+    double length = playerAudio.getLengthInSeconds();
+    if (length > 0) {
+        playerGUI.updatepositionslider(slider_position / length);
+        if (isSegmentLoopEnabled && slider_position >= loopEnd) {
+            playerAudio.setPosition(loopStart);
+        }
+    };
+ }
 
 void MainComponent::onPauseClicked() {
     playerAudio.pause();
@@ -110,6 +135,9 @@ void MainComponent::onGoToStartClicked() {
 void MainComponent::onLoopClicked(bool shouldloop) {
 
     playerAudio.setLooping(shouldloop);
+}
+void MainComponent::onsegmentloopClicked(bool enable) {
+    isSegmentLoopEnabled = enable;
 }
 
 void MainComponent::onTenSecondsForward()
@@ -155,6 +183,7 @@ void MainComponent::onLoadSessionClicked()
             playerAudio.LoadSession(FullPath);
         });
 }
+
 void MainComponent::onNextClicked()
 {
     if (playlist.empty()) return;
@@ -192,3 +221,17 @@ void MainComponent::onPrevClicked()
     playerGUI.setMetadata(title, artist, duration);
     playerAudio.play();
 }
+
+void MainComponent::onSetAClicked()
+{
+    loopStart = playerAudio.getCurrentPosition();
+    playerGUI.updateloop(loopStart, loopEnd);
+}
+
+void MainComponent::onSetBClicked()
+{
+    loopEnd = playerAudio.getCurrentPosition();
+    playerGUI.updateloop(loopStart, loopEnd);
+    isSegmentLoopEnabled = true;
+}
+

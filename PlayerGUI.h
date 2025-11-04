@@ -38,11 +38,18 @@ public:
         virtual void onLoadSessionClicked() = 0;
         virtual void onNextClicked() = 0;
         virtual void onPrevClicked() = 0;
-
+        virtual void onSetAClicked() = 0;
+        virtual void onSetBClicked() = 0;
+        virtual void onsegmentloopClicked(bool enable) = 0;
+        
+        
+ 
     };
 
     void setListener(Listener* newListener);
-
+    void updatepositionslider(double value);
+    void updateloop(double Atime, double Btime);
+    
 private:
     juce::TextButton loadButton{ "Load" };
     juce::TextButton playButton{ "Play" };
@@ -57,8 +64,17 @@ private:
     juce::TextButton MuteButton{ "Mute" };
     juce::TextButton SaveSessionButton{ "Save Session" };
     juce::TextButton LoadSessionButton{ "Load Session" };
+    juce::TextButton setA{ "set A" };
+    juce::TextButton setB{ "set B" };
+    juce::TextButton segmentloop{ "Segment Loop:off" };
     juce::Slider volumeSlider;
     juce::Slider positionSlider;
+  
+    juce::Label volume{ "Volume slider: " };
+    juce::Label position{ "Position slider: " };
+    juce::Label segment{ "Loop over a specific segment: " };
+    juce::Label Alabel{ "A:", "A=0.0s" };
+    juce::Label Blabel{ "B:", "B=0.0s" };
     void buttonClicked(juce::Button* button) override;
     void sliderValueChanged(juce::Slider* slider) override;
     juce::Label titleLabel, artistLabel, durationLabel;
