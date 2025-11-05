@@ -8,7 +8,7 @@ PlayerGUI::PlayerGUI()
         &pauseButton, &endButton, &goToStartButton, &loopButton, 
         &TenSecondsForward, &TenSecondsBackward, &MuteButton, &SaveSessionButton, 
         &LoadSessionButton, &nextButton, &prevButton, &setA, &setB, &segmentloop
-        , &AddMarkerButton})
+        , &AddMarkerButton, &ModeButton})
     
 {
         addAndMakeVisible(btn);
@@ -88,7 +88,10 @@ PlayerGUI::~PlayerGUI() {}
 
 void PlayerGUI::paint(juce::Graphics& g)
 {
-    g.fillAll(juce::Colours::black);
+    if (is_Dark_Mode)
+        g.fillAll(juce::Colours::black);
+    else
+        g.fillAll(juce::Colours::lightblue);
 }
 
 void PlayerGUI::resized()
@@ -111,6 +114,7 @@ void PlayerGUI::resized()
     MuteButton.setBounds(w * 0.89f, h * 0.44f, w * 0.05f, h * 0.05f);
     SaveSessionButton.setBounds(w * 0.13f, h * 0.33f, w * 0.06f, h * 0.05f);
     LoadSessionButton.setBounds(w * 0.13f, h * 0.40f, w * 0.075f, h * 0.05f);
+    ModeButton.setBounds(w * 0.02f, h * 0.90f, w * 0.08f, h * 0.05f);
 
     // volume
     volume.setBounds(w * 0.875f, h * 0.09f, w * 0.12f, h * 0.04f);
@@ -218,6 +222,18 @@ void PlayerGUI::buttonClicked(juce::Button* button)
     else if (button == &setA)  listener->onSetAClicked();
     else if (button == &setB) listener->onSetBClicked();
     else if (button == &AddMarkerButton) listener->onAddMarkerClicked();
+    else if (button == &ModeButton)
+    {
+        is_Dark_Mode = !is_Dark_Mode;
+        if (is_Dark_Mode)
+            ModeButton.setButtonText("Light Mode");
+        else
+            ModeButton.setButtonText("Dark Mode");
+        if (listener)
+            listener->onModeClicked(is_Dark_Mode);
+        repaint();
+
+    }
         
     
 

@@ -36,6 +36,7 @@ public:
     void onSaveSessionClicked();
     void onLoadSessionClicked();
     void onSpeedChanged(double value) override;
+    void onModeClicked(bool is_dark) override;
 
     std::vector<juce::File> playlist;
     int currentIndex = 0;

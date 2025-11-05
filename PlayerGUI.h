@@ -64,6 +64,7 @@ public:
         virtual void onSongSelected(int index) = 0;
         virtual void onAddMarkerClicked() = 0;
         virtual void onMarkerSelected(double position) = 0;
+        virtual void onModeClicked(bool is_dark) = 0;
 
         
  
@@ -91,6 +92,7 @@ private:
     juce::TextButton setA{ "set A" };
     juce::TextButton setB{ "set B" };
     juce::TextButton segmentloop{ "Segment Loop:off" };
+    juce::TextButton ModeButton{ "Dark Mode" };
     juce::Slider volumeSlider;
     juce::Slider positionSlider;
     juce::Slider speedSlider;
@@ -112,6 +114,7 @@ private:
     juce::ProgressBar progressBar{ Progress_Value };
     juce::ComboBox MarkerList;
     juce::TextButton AddMarkerButton{ "Add Marker" };
+    bool is_Dark_Mode = false;
 
     Listener* listener = nullptr;
 };

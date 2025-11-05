@@ -291,3 +291,8 @@ void MainComponent::onMarkerSelected(double position)
 {
     playerAudio.setPosition(position);
 }
+
+void MainComponent::onModeClicked(bool is_dark)
+{
+
+}
