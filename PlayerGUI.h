@@ -14,6 +14,9 @@ public:
     void paint(juce::Graphics&) override;
     void resized() override;
 
+    void updateMarkerList(const std::vector<double>& markers);
+
+
     void comboBoxChanged(juce::ComboBox* comboBoxChanged) override;
 
     void setMetadata(const juce::String& title,
@@ -60,7 +63,8 @@ public:
         virtual juce::String getPlaylistItem(int index) const = 0;
         virtual void onSongSelected(int index) = 0;
         virtual void onAddMarkerClicked() = 0;
-        
+        virtual void onMarkerSelected(double position) = 0;
+
         
  
     };

@@ -284,4 +284,10 @@ void MainComponent::onSongSelected(int index)
 void MainComponent::onAddMarkerClicked()
 {
     playerAudio.AddMarker();
+    playerGUI.updateMarkerList(playerAudio.getMarkers());
+}
+
+void MainComponent::onMarkerSelected(double position)
+{
+    playerAudio.setPosition(position);
 }

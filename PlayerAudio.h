@@ -43,6 +43,7 @@ public:
     void playPrevious();
     bool isPlaying() const { return transportSource.isPlaying(); }
     void AddMarker();
+    const std::vector<double>& getMarkers() const { return MarksPositions; }
 
 
 private:
