@@ -101,6 +101,7 @@ private:
     juce::Label segment{ "Loop over a specific segment: " };
     juce::Label Alabel{ "A:", "A=0.0s" };
     juce::Label Blabel{ "B:", "B=0.0s" };
+    juce::Label playlistlabel;
     void buttonClicked(juce::Button* button) override;
     void sliderValueChanged(juce::Slider* slider) override;
     juce::Label titleLabel, artistLabel, durationLabel;

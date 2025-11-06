@@ -14,20 +14,23 @@ PlayerGUI::PlayerGUI()
         addAndMakeVisible(btn);
         btn->addListener(this);
     }
-
+    addAndMakeVisible(playlistlabel);
     //volume slider
+    volumeSlider.setSliderStyle(juce::Slider::LinearVertical);
     volumeSlider.setRange(0.0, 1.0, 0.01);
     volumeSlider.setValue(0.5);
     volumeSlider.addListener(this);
     addAndMakeVisible(volumeSlider);
 
     //position slider
+   
     positionSlider.setRange(0.0, 1.0, 0.01);
     positionSlider.setValue(0.5);
     positionSlider.addListener(this);
     addAndMakeVisible(positionSlider);
 
     //speed 
+    speedSlider.setSliderStyle(juce::Slider::LinearVertical);
     speedSlider.setRange(0.5, 2.0, 0.01);
     speedSlider.setValue(1.0);
     speedSlider.addListener(this);
@@ -38,6 +41,7 @@ PlayerGUI::PlayerGUI()
     titleLabel.setText("Title: ---", juce::dontSendNotification);
     artistLabel.setText("Artist: ---", juce::dontSendNotification);
     durationLabel.setText("Duration: ---", juce::dontSendNotification);
+    playlistlabel.setText("playlist box: ", juce::dontSendNotification);
 
     addAndMakeVisible(titleLabel);
     addAndMakeVisible(artistLabel);
@@ -86,53 +90,58 @@ void PlayerGUI::paint(juce::Graphics& g)
 
 void PlayerGUI::resized()
 {
-    int y = 20;
+    int y = 750;
 
-    loadButton.setBounds(20, y, 80, 40);
-    playButton.setBounds(110, y, 80, 40);
-    stopButton.setBounds(200, y, 80, 40);
-    pauseButton.setBounds(290, y, 80, 40);
-    restartButton.setBounds(380, y, 80, 40);
-    endButton.setBounds(470, y, 80, 40);
-    goToStartButton.setBounds(560, y, 100, 40);
-    loopButton.setBounds(670, y, 80, 40);
-    TenSecondsForward.setBounds(760, y, 100, 40);
-    TenSecondsBackward.setBounds(870, y, 100, 40);
-    MuteButton.setBounds(980, y, 80, 40);
-    SaveSessionButton.setBounds(1070, y, 100, 40);
-    LoadSessionButton.setBounds(1180, y, 120, 40);
+    loadButton.setBounds(1050, 190, 80, 40);
+    playButton.setBounds(660, y, 90, 50);
+    stopButton.setBounds(980, y, 80, 40);
+    pauseButton.setBounds(760, y, 90, 50); //290
+    restartButton.setBounds(370, y, 80, 40);
+    endButton.setBounds(460, y, 80, 40);
+    goToStartButton.setBounds(1070, y, 100, 40); //870
+    loopButton.setBounds(110, 240, 80, 40); 
+    TenSecondsForward.setBounds(870, y, 100, 40);
+    TenSecondsBackward.setBounds(550, y, 100, 40);
+    MuteButton.setBounds(1420, 400, 80, 40);
+    SaveSessionButton.setBounds(110, 300, 100, 40); //1070
+    LoadSessionButton.setBounds(110, 360, 120, 40); //1180
 
-    volume.setBounds(20, 100, 200, 30);
-    volumeSlider.setBounds(20, 130, getWidth() - 40, 25);
+    volume.setBounds(1400, 80, 200, 30);
+    //volumeSlider.setBounds(20, 130, getWidth() - 40, 25);
+    volumeSlider.setBounds(1450, 100, 30, 300); // x, y, width, height
+
+
+
+    speed.setBounds(20, 80, 200, 30);
+    //speedSlider.setBounds(20, 400, getWidth() - 40, 25);
+    speedSlider.setBounds(20, 100, 30, 300);
+    //metadata
+    int p = 600; 
+    titleLabel.setBounds(p, 110, getWidth() - 40, 20); //diffrence is 25
+    artistLabel.setBounds(p, 135, getWidth() - 40, 20);
+    durationLabel.setBounds(p, 160, getWidth() - 40, 20);
+    prevButton.setBounds(750, 150, 80, 40);
+    nextButton.setBounds(750, 110, 80, 40);
+
+    position.setBounds(20, 675, 200, 30);
+    positionSlider.setBounds(20, 700, getWidth() - 40, 25);
+    // a-b segment loop
+    int v = 600;
+    segment.setBounds(20, v, 300, 30);
+    Alabel.setBounds(340, v, 100, 30);
+    setA.setBounds(440, v, 100, 30);
+    Blabel.setBounds(560, v, 100, 30);
+    setB.setBounds(660, v, 100, 30);
+    segmentloop.setBounds(780, v, 150, 30);
+
+    //playlistBox.setBounds(20, 500, getWidth() - 40, getHeight() - 520);
     
+    playlistBox.setBounds(350, 240, getWidth() - 700, getHeight() - 600);
+    playlistlabel.setBounds(350, 200, 200, 30);
+    progressBar.setBounds(20, 650, getWidth() - 40, 20);
 
-
-    speed.setBounds(20, 170, 200, 30);
-    speedSlider.setBounds(20, 200, getWidth() - 40, 25);
-
-    titleLabel.setBounds(20, 240, getWidth() - 40, 20);
-    artistLabel.setBounds(20, 265, getWidth() - 40, 20);
-    durationLabel.setBounds(20, 290, getWidth() - 40, 20);
-
-    prevButton.setBounds(20, 320, 80, 40);
-    nextButton.setBounds(110, 320, 80, 40);
-
-    position.setBounds(20, 370, 200, 30);
-    positionSlider.setBounds(20, 400, getWidth() - 40, 25);
-
-    segment.setBounds(20, 440, 300, 30);
-    Alabel.setBounds(340, 440, 100, 30);
-    setA.setBounds(440, 440, 100, 30);
-    Blabel.setBounds(560, 440, 100, 30);
-    setB.setBounds(660, 440, 100, 30);
-    segmentloop.setBounds(780, 440, 150, 30);
-
-    playlistBox.setBounds(20, 500, getWidth() - 40, getHeight() - 520);
-    
-    progressBar.setBounds(20, 590, getWidth() - 40, 20);
-
-    AddMarkerButton.setBounds(1100, 300, 80, 40);
-    MarkerList.setBounds(1200, 300 , 100, 50);
+    AddMarkerButton.setBounds(1100, v, 80, 40);
+    MarkerList.setBounds(1200, v , 100, 50);
 
 }
 
