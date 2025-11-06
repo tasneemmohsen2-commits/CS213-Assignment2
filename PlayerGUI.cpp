@@ -14,6 +14,9 @@ PlayerGUI::PlayerGUI()
         addAndMakeVisible(btn);
         btn->addListener(this);
     }
+
+    MarkerList.setTextWhenNothingSelected("Pick a Marker");
+
     addAndMakeVisible(playlistlabel);
     //volume slider
     volumeSlider.setSliderStyle(juce::Slider::LinearVertical);
@@ -90,59 +93,71 @@ void PlayerGUI::paint(juce::Graphics& g)
 
 void PlayerGUI::resized()
 {
-    int y = 750;
+    auto w = getWidth();
+    auto h = getHeight();
 
-    loadButton.setBounds(1050, 190, 80, 40);
-    playButton.setBounds(660, y, 90, 50);
-    stopButton.setBounds(980, y, 80, 40);
-    pauseButton.setBounds(760, y, 90, 50); //290
-    restartButton.setBounds(370, y, 80, 40);
-    endButton.setBounds(460, y, 80, 40);
-    goToStartButton.setBounds(1070, y, 100, 40); //870
-    loopButton.setBounds(110, 240, 80, 40); 
-    TenSecondsForward.setBounds(870, y, 100, 40);
-    TenSecondsBackward.setBounds(550, y, 100, 40);
-    MuteButton.setBounds(1420, 400, 80, 40);
-    SaveSessionButton.setBounds(110, 300, 100, 40); //1070
-    LoadSessionButton.setBounds(110, 360, 120, 40); //1180
+    float y = h * 0.83f;
 
-    volume.setBounds(1400, 80, 200, 30);
-    //volumeSlider.setBounds(20, 130, getWidth() - 40, 25);
-    volumeSlider.setBounds(1450, 100, 30, 300); // x, y, width, height
+    loadButton.setBounds(w * 0.66f, h * 0.21f, w * 0.05f, h * 0.05f);
+    playButton.setBounds(w * 0.415f, y, w * 0.06f, h * 0.06f);
+    stopButton.setBounds(w * 0.61f, y, w * 0.05f, h * 0.05f);
+    pauseButton.setBounds(w * 0.475f, y, w * 0.06f, h * 0.06f);
+    restartButton.setBounds(w * 0.23f, y, w * 0.05f, h * 0.05f);
+    endButton.setBounds(w * 0.29f, y, w * 0.05f, h * 0.05f);
+    goToStartButton.setBounds(w * 0.67f, y, w * 0.06f, h * 0.05f);
+    loopButton.setBounds(w * 0.13f, h * 0.27f, w * 0.05f, h * 0.05f);
+    TenSecondsForward.setBounds(w * 0.54f, y, w * 0.06f, h * 0.05f);
+    TenSecondsBackward.setBounds(w * 0.35f, y, w * 0.06f, h * 0.05f);
+    MuteButton.setBounds(w * 0.89f, h * 0.44f, w * 0.05f, h * 0.05f);
+    SaveSessionButton.setBounds(w * 0.13f, h * 0.33f, w * 0.06f, h * 0.05f);
+    LoadSessionButton.setBounds(w * 0.13f, h * 0.40f, w * 0.075f, h * 0.05f);
+
+    // volume
+    volume.setBounds(w * 0.875f, h * 0.09f, w * 0.12f, h * 0.04f);
+    volumeSlider.setBounds(w * 0.91f, h * 0.11f, w * 0.05f, h * 0.33f);
+    volumeSlider.setSliderStyle(juce::Slider::LinearVertical);
+    volumeSlider.setTextBoxStyle(juce::Slider::TextBoxRight, false, 60, 25);
 
 
 
-    speed.setBounds(20, 80, 200, 30);
-    //speedSlider.setBounds(20, 400, getWidth() - 40, 25);
-    speedSlider.setBounds(20, 100, 30, 300);
-    //metadata
-    int p = 600; 
-    titleLabel.setBounds(p, 110, getWidth() - 40, 20); //diffrence is 25
-    artistLabel.setBounds(p, 135, getWidth() - 40, 20);
-    durationLabel.setBounds(p, 160, getWidth() - 40, 20);
-    prevButton.setBounds(750, 150, 80, 40);
-    nextButton.setBounds(750, 110, 80, 40);
+    // speed
+    speed.setBounds(w * 0.02f, h * 0.09f, w * 0.12f, h * 0.04f);
+    speedSlider.setBounds(w * 0.02f, h * 0.11f, w * 0.05f, h * 0.33f);
+    speedSlider.setSliderStyle(juce::Slider::LinearVertical);
+    speedSlider.setTextBoxStyle(juce::Slider::TextBoxRight, false, 60, 25);
 
-    position.setBounds(20, 675, 200, 30);
-    positionSlider.setBounds(20, 700, getWidth() - 40, 25);
-    // a-b segment loop
-    int v = 600;
-    segment.setBounds(20, v, 300, 30);
-    Alabel.setBounds(340, v, 100, 30);
-    setA.setBounds(440, v, 100, 30);
-    Blabel.setBounds(560, v, 100, 30);
-    setB.setBounds(660, v, 100, 30);
-    segmentloop.setBounds(780, v, 150, 30);
 
-    //playlistBox.setBounds(20, 500, getWidth() - 40, getHeight() - 520);
-    
-    playlistBox.setBounds(350, 240, getWidth() - 700, getHeight() - 600);
-    playlistlabel.setBounds(350, 200, 200, 30);
-    progressBar.setBounds(20, 650, getWidth() - 40, 20);
+    // metadata
+    float p = w * 0.375f;
+    titleLabel.setBounds(p, h * 0.12f, w * 0.5f, h * 0.03f);
+    artistLabel.setBounds(p, h * 0.15f, w * 0.5f, h * 0.03f);
+    durationLabel.setBounds(p, h * 0.18f, w * 0.5f, h * 0.03f);
+    prevButton.setBounds(p, h * 0.21f, w * 0.05f, h * 0.05f);
+    nextButton.setBounds(w * 0.45f, h * 0.21f, w * 0.05f, h * 0.05f);
 
-    AddMarkerButton.setBounds(1100, v, 80, 40);
-    MarkerList.setBounds(1200, v , 100, 50);
+    // position slider
+    position.setBounds(w * 0.02f, h * 0.75f, w * 0.12f, h * 0.04f);
+    positionSlider.setBounds(w * 0.02f, h * 0.78f, w * 0.96f, h * 0.03f);
 
+    // A-B loop
+    float v = h * 0.67f;
+    segment.setBounds(w * 0.02f, v, w * 0.18f, h * 0.04f);
+    Alabel.setBounds(w * 0.22f, v, w * 0.06f, h * 0.04f);
+    setA.setBounds(w * 0.29f, v, w * 0.06f, h * 0.04f);
+    Blabel.setBounds(w * 0.36f, v, w * 0.06f, h * 0.04f);
+    setB.setBounds(w * 0.43f, v, w * 0.06f, h * 0.04f);
+    segmentloop.setBounds(w * 0.51f, v, w * 0.09f, h * 0.04f);
+
+    // playlist
+    playlistBox.setBounds(w * 0.22f, h * 0.27f, w * 0.56f, h * 0.25f);
+    playlistlabel.setBounds(w * 0.22f, h * 0.22f, w * 0.12f, h * 0.04f);
+
+    // progress bar
+    progressBar.setBounds(w * 0.02f, h * 0.72f, w * 0.96f, h * 0.02f);
+
+    // markers
+    AddMarkerButton.setBounds(w * 0.69f, v, w * 0.05f, h * 0.05f);
+    MarkerList.setBounds(w * 0.76f, v, w * 0.05f, h * 0.05f);
 }
 
 
@@ -289,6 +304,8 @@ void PlayerGUI::comboBoxChanged(juce::ComboBox* comboBoxChanged)
         {
             double pos = MarkerList.getItemText(selectedId - 1).getDoubleValue();
             listener->onMarkerSelected(pos);
+
+            MarkerList.setSelectedId(0, juce::dontSendNotification);
         }
     }
 }
