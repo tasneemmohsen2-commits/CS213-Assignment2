@@ -43,19 +43,17 @@ public:
     void playPrevious();
     bool isPlaying() const { return transportSource.isPlaying(); }
     void AddMarker();
-
-
+    const std::vector<double>& getMarkers() const { return MarksPositions; }
 
 
 private:
     juce::AudioFormatManager formatManager;
     std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
+    std::unique_ptr<juce::ResamplingAudioSource> resampler;
     juce::AudioTransportSource transportSource;
     std::vector<double> MarksPositions;
     bool looping = false;
     bool muted = false;
     float last_volume = 1.0f;
-    double Playback_Speed = 1.0;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PlayerAudio)
-
 };

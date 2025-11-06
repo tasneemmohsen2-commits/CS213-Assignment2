@@ -72,8 +72,6 @@ PlayerGUI::PlayerGUI()
     addAndMakeVisible(progressBar);
 
     // Combo box (Marker)
-    MarkerList.addItem("!", 1);
-    MarkerList.addItem("#", 2);
     addAndMakeVisible(MarkerList);
     MarkerList.addListener(this);
 
@@ -133,8 +131,8 @@ void PlayerGUI::resized()
     
     progressBar.setBounds(20, 590, getWidth() - 40, 20);
 
-    AddMarkerButton.setBounds(1100, 260, 80, 40);
-    MarkerList.setBounds(1200, 260 , 100, 50);
+    AddMarkerButton.setBounds(1100, 300, 80, 40);
+    MarkerList.setBounds(1200, 300 , 100, 50);
 
 }
 
@@ -275,9 +273,23 @@ void PlayerGUI::updateProgress(double value)
 
 void PlayerGUI::comboBoxChanged(juce::ComboBox* comboBoxChanged)
 {
-    if (comboBoxChanged == &MarkerList)
+    if (comboBoxChanged == &MarkerList && listener != nullptr)
     {
         int selectedId = MarkerList.getSelectedId();
-        
+        if (selectedId > 0)
+        {
+            double pos = MarkerList.getItemText(selectedId - 1).getDoubleValue();
+            listener->onMarkerSelected(pos);
+        }
+    }
+}
+
+void PlayerGUI::updateMarkerList(const std::vector<double>& markers)
+{
+    MarkerList.clear();
+    int id = 1;
+    for (double pos : markers)
+    {
+        MarkerList.addItem(juce::String(pos, 2), id++);
     }
 }
