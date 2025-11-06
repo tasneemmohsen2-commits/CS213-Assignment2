@@ -106,6 +106,8 @@ void PlayerGUI::resized()
 
     volume.setBounds(20, 100, 200, 30);
     volumeSlider.setBounds(20, 130, getWidth() - 40, 25);
+    
+
 
     speed.setBounds(20, 170, 200, 30);
     speedSlider.setBounds(20, 200, getWidth() - 40, 25);
@@ -129,7 +131,7 @@ void PlayerGUI::resized()
 
     playlistBox.setBounds(20, 500, getWidth() - 40, getHeight() - 520);
     
-    progressBar.setBounds(20, 820, getWidth() - 40, 20);
+    progressBar.setBounds(20, 590, getWidth() - 40, 20);
 
     AddMarkerButton.setBounds(1100, 260, 80, 40);
     MarkerList.setBounds(1200, 260 , 100, 50);
