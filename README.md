@@ -39,8 +39,8 @@ Browse and manage your playlist directly within the app. Each selected track dis
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/tasneemmohsen2/Aiden-AudioPlayer.git
-cd Aiden-AudioPlayer
+git clone https://github.com/tasneemmohsen2-commits/Aiden.git
+cd Aiden
 ```
 ### 2️⃣ Get [JUCE](https://juce.com/) And Make Them as Source Files
 ### 3️⃣ Compile the Files With Your Favorite IDE (Visual Studio Prefered)
